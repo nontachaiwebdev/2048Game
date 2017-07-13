@@ -13,9 +13,14 @@ const getResult = (lock, word) => {
       return rightWord(lock);
       break;
     case 'D':
-      flipLock(lock);
+      const flip = flipLock(lock);
+      const rightLock = rightWord(flip);
+      return flipLock(rightLock);
       break;
     default:
+      const flipa = flipLock(lock);
+      const leftLock = leftWord(flipa);
+      return flipLock(leftLock);
 
   }
   return lock;
@@ -47,16 +52,15 @@ const flipLock = lock => {
   const arrLock = lock.map((row, index) => {
     return row.split('');
   });
-  let newFlipLock = [[], [], [], []];
-  for (let x = 0; x < arrLock.length; x++) {
-    for (let y = 0; y < arrLock[x].length; y++) {
-      newFlipLock[y][x] = arrLock[x][y];
-    }
-  }
-  console.log(newFlipLock);
+  return arrLock[0].map((col, index) => {
+    const colFlip = arrLock.map(row => {
+      return row[index];
+    });
+    return colFlip.join('');
+  });
 };
 
 const input = ["....", "AB..", ".C..", "...."];
 
-const action = 'D';
+const action = 'RDL';
 console.log(secretArchivesLock(input, action));
