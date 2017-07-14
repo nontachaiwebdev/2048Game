@@ -1,50 +1,24 @@
 const secretArchivesLock = (lock, actions) => {
-  return action.split('').reduce((result, word, index) => {
-    return getResult(result, word);
+  return actions.split('').reduce((result, word, index) => {
+    if (word === 'U' || word === 'D') {
+      const flip = flipLock(result);
+      const operate = operateLock(flip);
+      return word === 'U' ? flipLock(operate('L')) : flipLock(operate('R'));
+    } else {
+      const operate = operateLock(result);
+      return operate(word);
+    }
   }, lock);
 };
 
-const getResult = (lock, word) => {
-  switch (word) {
-    case 'L':
-      return leftWord(lock);
-      break;
-    case 'R':
-      return rightWord(lock);
-      break;
-    case 'D':
-      const flip = flipLock(lock);
-      const rightLock = rightWord(flip);
-      return flipLock(rightLock);
-      break;
-    default:
-      const flipa = flipLock(lock);
-      const leftLock = leftWord(flipa);
-      return flipLock(leftLock);
-
-  }
-  return lock;
-};
-
-const leftWord = lock => {
+const operateLock = lock => operate => {
   return lock.map((row, index) => {
     const arr = row.split('');
     const word = arr.reduce((result, point) => {
       return point !== '.' ? [...result, point] : result;
     }, []);
-    const dot = new Array(lock.length - word.length).fill('.').map((string, index) => string);
-    return [...word, ...dot].join('');
-  });
-};
-
-const rightWord = lock => {
-  return lock.map((row, index) => {
-    const arr = row.split('');
-    const word = arr.reduce((result, point) => {
-      return point !== '.' ? [...result, point] : result;
-    }, []);
-    const dot = new Array(lock.length - word.length).fill('.').map((string, index) => string);
-    return [...dot, ...word].join('');
+    const dot = new Array(arr.length - word.length).fill('.').map((string, index) => string);
+    return (operate === 'L' ? [...word, ...dot] : [...dot, ...word]).join('');
   });
 };
 
@@ -60,7 +34,7 @@ const flipLock = lock => {
   });
 };
 
-const input = ["....", "AB..", ".C..", "...."];
+const input = ["V...Y..E.PRFI..", ".ZO...ZU.R.Z...", ".....R.......U.", "..N.CE...S..RP.", "...J........T..", ".......H..I....", ".N.JE.......J.F", "...............", "A.K..G.........", "...PW.....W.G..", "UO..BJT.G.I....", ".R.....J.......", "...............", "..M.GCD.....S..", ".X.S..........."];
 
-const action = 'RDL';
+const action = 'LULLR';
 console.log(secretArchivesLock(input, action));
