@@ -1,4 +1,4 @@
-
+import { secretArchivesLock } from '../'
 
 describe('Test with many Matrix Input', function() {
 

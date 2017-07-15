@@ -1,4 +1,4 @@
-const secretArchivesLock = (lock, actions) => {
+export const secretArchivesLock = (lock, actions) => {
   const listLock = toList(lock)
   const resultOperateLock = actions.split('').reduce((result, word, index)=> {
     if(word === 'U' || word === 'D'){
