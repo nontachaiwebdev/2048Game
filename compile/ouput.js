@@ -23,7 +23,6 @@ const operateLock = lock => operate => {
 };
 
 const flipLock = lock => {
-  console.log(lock[0]);
   return lock[0].map((col, index) => {
     return lock.map(row => {
       return row[index];
@@ -42,8 +41,3 @@ const toWord = lock => {
     return row.join('');
   });
 };
-
-const input = ["....", "AB..", ".C..", "...."];
-
-const action = 'D';
-console.log(secretArchivesLock(input, action));
